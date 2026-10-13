@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Feliz cumpleaños</title>
+<meta name="theme-color" content="#CFE6F6">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,500&family=Quicksand:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{--cielo:#CFE6F6;--bruma:#EEF6FC;--nieve:#fff;--tinta:#34506B;--suave:#7F9BB5;--oro:#E6D3A0;--lila:#B9CCEE}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;min-height:100svh;display:flex;align-items:center;justify-content:center;padding:16px;
+  background:var(--bruma) radial-gradient(#fff 2px,transparent 2px) 0 0/26px 26px;
+  font-family:'Quicksand',sans-serif;color:var(--tinta)}
+.carta{position:relative;z-index:2;width:100%;max-width:380px;min-height:460px;padding:34px 22px 26px;
+  background:var(--nieve);border:4px double var(--lila);border-radius:18px;
+  box-shadow:0 14px 34px rgba(52,80,107,.14);display:flex;align-items:center;justify-content:center}
+.paso{display:none;width:100%;flex-direction:column;align-items:center;gap:16px;text-align:center}
+.paso.on{display:flex}
+h1{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:30px;line-height:1.15;margin:0}
+p{margin:0;font-size:15.5px;line-height:1.7}
+.suave{color:var(--suave);font-size:13px}
+.btn{font:600 16px 'Quicksand',sans-serif;color:var(--tinta);background:var(--cielo);border:2px solid var(--lila);
+  border-radius:999px;padding:12px 26px;cursor:pointer;box-shadow:0 4px 0 var(--lila)}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--lila)}
+.btn:focus-visible,.sobre:focus-visible{outline:3px solid var(--tinta);outline-offset:3px}
+
+/* Sobre con sello: el momento principal */
+.sobre{position:relative;width:230px;height:150px;border:0;padding:0;cursor:pointer;border-radius:10px;
+  background:linear-gradient(#fff,var(--cielo));box-shadow:0 8px 20px rgba(52,80,107,.2)}
+.sobre::before{content:"";position:absolute;inset:0;border-radius:10px;background:var(--lila);
+  clip-path:polygon(0 0,100% 0,50% 62%);transform-origin:top;transition:transform .6s ease}
+.sello{position:absolute;left:50%;top:48%;width:58px;height:58px;margin:-29px 0 0 -29px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#F8EDC8,var(--oro) 60%,#CDB677);display:grid;place-items:center;
+  font-size:26px;box-shadow:0 3px 8px rgba(0,0,0,.2);transition:transform .5s ease,opacity .5s ease}
+.sobre.abierto .sello{transform:scale(1.5) rotate(14deg);opacity:0}
+.sobre.abierto::before{transform:rotateX(180deg)}
+.sobre:not(.abierto) .sello{animation:latir 2.4s ease-in-out infinite}
+@keyframes latir{50%{transform:scale(1.08)}}
+
+/* Billete y contador */
+.billete{width:100%;border:2px dashed var(--lila);border-radius:14px;padding:14px 12px;background:var(--bruma);display:flex;flex-direction:column;gap:12px}
+.billete .cab{font-weight:600;font-size:14px;padding-bottom:10px;border-bottom:2px dashed var(--lila)}
+.contador{display:flex;gap:10px;width:100%;justify-content:center}
+.caja{flex:1;border:2px solid var(--lila);border-radius:14px;padding:12px 4px;background:#fff}
+.caja b{display:block;font-family:'Cormorant Garamond',serif;font-size:46px;line-height:1}
+.caja span{font-size:13px;color:var(--suave)}
+
+/* Fotos */
+.fotos{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%}
+.foto{aspect-ratio:1;border:2px solid var(--lila);border-radius:12px;overflow:hidden;position:relative;
+  background:linear-gradient(135deg,var(--bruma),var(--cielo));display:grid;place-items:center;font-size:28px}
+.foto::after{content:"🪄";position:absolute}
+.foto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+
+.texto{width:100%;max-height:300px;overflow-y:auto;text-align:left;background:var(--bruma);
+  border:2px dashed var(--lila);border-radius:14px;padding:16px}
+.texto p{margin-bottom:12px;font-size:14.5px}.texto p:last-child{margin:0}
+.firma{align-self:flex-end;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:19px}
+
+.fila{display:flex;gap:10px;justify-content:center;width:100%}
+.btn.sec{background:#fff;font-size:14px;padding:10px 18px}
+.foto.grande{aspect-ratio:4/3;font-size:40px}
+.foto.grande img{display:none}
+
+.galeria{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;width:100%;max-height:240px;overflow-y:auto;padding:5px}
+.galeria .ft{position:relative;height:85px;border-radius:10px;border:2px solid var(--lila);overflow:hidden;display:grid;place-items:center;font-size:22px;background:linear-gradient(135deg,var(--bruma),var(--cielo))}
+.galeria .ft::after{content:"🪄"}
+.galeria .ft img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.galeria .ft:nth-child(1),.galeria .ft:nth-child(2){grid-column:span 3}
+.galeria .ft:nth-child(n+3){grid-column:span 2}
+.subida{display:none;width:100%;flex-direction:column;align-items:center;gap:8px;border-top:2px dashed var(--lila);padding-top:12px}
+.subida.on{display:flex}
+.subida p{margin:0}
+@media (min-width:700px){.galeria{max-height:320px;gap:10px}.galeria .ft{height:115px}}
+
+.particula{position:fixed;bottom:-40px;z-index:1;pointer-events:none;animation:subir 3.6s linear forwards}
+@keyframes subir{to{transform:translateY(-110vh) rotate(300deg);opacity:0}}
+@media (min-width:700px){.carta{max-width:460px;padding:46px 40px 34px}h1{font-size:36px}p{font-size:17px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main class="carta">
+
+  <!-- 0. Sobre -->
+  <section class="paso on" id="p0">
+    <h1>Una carta para <span data-nombre></span></h1>
+    <p>Hoy es un día especial y llegó una carta con tu nombre. Toca el sello para abrirla.</p>
+    <button class="sobre" id="sobre" aria-label="Abrir la carta" onclick="abrir()"><span class="sello">🦉</span></button>
+  </section>
+
+  <!-- 1. Mensaje de cumpleaños (EDITA ESTE TEXTO) -->
+  <section class="paso" id="p1">
+    <h1>Feliz cumpleaños, <span data-nombre></span> 🎂</h1>
+    <p>Hoy cumples 20 años y quise regalarte algo que no se compra: un recorrido por los momentos que hemos vivido juntos.</p>
+    <p>El tren sale del andén 9¾. Antes de partir, mira cuánto llevamos de viaje.</p>
+    <button class="btn" onclick="ir('p2')">Seguir leyendo ✨</button>
+  </section>
+
+  <!-- 2. Billete con contador (la fecha se cambia en CONFIG, abajo) -->
+  <section class="paso" id="p2">
+    <h1>Lo que dice el Giratiempo</h1>
+    <div class="billete">
+      <div class="cab">Billete: andén 9¾, destino nuestro hogar</div>
+      <div class="contador">
+        <div class="caja"><b id="cA">0</b><span id="lA">años</span></div>
+        <div class="caja"><b id="cM">0</b><span id="lM">meses</span></div>
+        <div class="caja"><b id="cD">0</b><span id="lD">días</span></div>
+      </div>
+      <p class="suave" id="total"></p>
+    </div>
+    <button class="btn" onclick="ir('p3')">Empezar el tour 🧭</button>
+  </section>
+
+  <!-- 3. Tour por los recuerdos (se edita en CONFIG.recuerdos, abajo) -->
+  <section class="paso" id="p3">
+    <p class="suave" id="tProg"></p>
+    <div class="foto grande"><img id="tFoto" alt="" onerror="this.style.display='none'" onload="this.style.display='block'"></div>
+    <h1 id="tTitulo"></h1>
+    <p class="suave" id="tFecha"></p>
+    <p id="tTexto"></p>
+    <div class="fila">
+      <button class="btn sec" id="tAtras" onclick="mover(-1)">Volver</button>
+      <button class="btn" id="tSig" onclick="mover(1)"></button>
+    </div>
+  </section>
+
+  <!-- 3b. Galería: guarda las fotos como a1.jpg ... a5.jpg junto a este archivo -->
+  <section class="paso" id="pg">
+    <h1>Más momentos nuestros</h1>
+    <div class="galeria" id="galeria">
+      <div class="ft"><img src="a1.jpg" alt="Momento 1" onerror="this.remove()"></div>
+      <div class="ft"><img src="a2.jpg" alt="Momento 2" onerror="this.remove()"></div>
+      <div class="ft"><img src="a3.jpg" alt="Momento 3" onerror="this.remove()"></div>
+      <div class="ft"><img src="a4.jpg" alt="Momento 4" onerror="this.remove()"></div>
+      <div class="ft"><img src="a5.jpg" alt="Momento 5" onerror="this.remove()"></div>
+    </div>
+    <div class="subida" id="subida">
+      <p class="suave">¿Tienes otra foto especial? Agrégala aquí y quedará guardada 💙</p>
+      <button type="button" class="btn sec" id="btnSubir" onclick="document.getElementById('inputFotos').click()">📷 Subir foto(s)</button>
+      <input type="file" id="inputFotos" accept="image/*" multiple hidden onchange="agregarFotos(event)">
+      <p class="suave" id="estadoSubida"></p>
+    </div>
+    <button class="btn" onclick="ir('p4')">Abrir la última hoja 💙</button>
+  </section>
+
+  <!-- 4. Carta final (EDITA ESTE TEXTO) -->
+  <section class="paso" id="p4">
+    <h1>Una última cosa</h1>
+    <p class="suave">Desliza para leer la carta completa ↓</p>
+    <div class="texto">
+      <p>Primero que nada, quería darte muchísimas gracias por permitirme crecer junto a ti y por dejarme compartir tantos momentos a tu lado. Me da una alegría inmensa poder ver cómo vamos progresando en la vida, cada uno con nuestros logros y metas, pero también pudiendo acompañarnos y apoyarnos en el camino.</p>
+      <p>Espero que podamos seguir festejando muchos cumpleaños juntos y que podamos compartir muchísimos más momentos, experiencias y aventuras durante el resto de nuestras vidas. Sé que todavía nos queda muchísimo por vivir, aprender y descubrir, y me hace muy feliz pensar que podré estar ahí para acompañarte en todo lo que venga.</p>
+      <p>Quiero que sepas que eres una de las personas más importantes para mí y que valoro muchísimo cada momento que hemos pasado juntos. Desde los momentos más simples hasta aquellos que se han quedado guardados como recuerdos especiales, todos significan mucho para mí simplemente porque los he vivido contigo.</p>
+      <p>Quizás no sean regalos tan grandes o quizás no sea exactamente lo que esperabas, pero quiero que sepas que cada detalle que te entregue está hecho pensando en ti y con todo mi cariño. Espero que puedas disfrutar cada uno de ellos y que, cuando los veas en el futuro, puedas recordar este día y todo el amor con el que te los entregué.</p>
+      <p>También quiero aprovechar este día para decirte que estoy muy orgulloso de ti. Cumplir 20 años es comenzar una etapa nueva, llena de cambios, desafíos, sueños y nuevas experiencias. Espero que nunca dejes de perseguir aquello que te haga feliz y que siempre recuerdes lo mucho que vales y todo lo que eres capaz de lograr.</p>
+      <p>Quiero seguir estando a tu lado en los días buenos, pero también en aquellos días en los que las cosas no salgan como esperamos. Quiero poder celebrar tus logros, apoyarte cuando tengas miedo, escucharte cuando necesites hablar y simplemente acompañarte cuando no necesites nada más.</p>
+      <p>Gracias por cada risa, cada abrazo, cada conversación, cada momento juntos y también por todas esas pequeñas cosas que quizás parecen insignificantes, pero que para mí terminan haciendo que estar contigo sea algo tan especial.</p>
+      <p>Espero que estos 20 años sean solamente el comienzo de una etapa hermosa para ti. Que cumplas muchos de tus sueños, que conozcas lugares nuevos, que vivas experiencias inolvidables y, sobre todo, que seas muy feliz.</p>
+      <p>Y si tengo la suerte de poder acompañarte en gran parte de todo eso, voy a estar muy feliz.</p>
+      <p><b>Felices 20 años, mi amor.</b><br>Espero poder seguir celebrando tus cumpleaños, tus logros y cada etapa de tu vida junto a ti.</p>
+    </div>
+    <p class="firma">Travesura realizada 🪄 <span data-firma></span></p>
+    <div class="fila">
+      <button class="btn sec" onclick="ir('p1')">Volver a leer</button>
+      <button class="btn" onclick="lluvia()">Pedir un deseo 🕯️</button>
+    </div>
+  </section>
+
+</main>
+
+<script>
+// ===== EDITA ESTO =====
+const CONFIG = {
+  nombre: 'Antito',          // nombre de la persona que recibe la carta
+  inicio: '2023-09-10',      // fecha en que empezaron (AAAA-MM-DD)
+  firma: '',                 // opcional: nombre de quien firma, aparece tras "Travesura realizada"
+  // Subida de fotos: pega aquí el firebaseConfig del proyecto de Felipe. Mientras sea null, el botón de subida queda oculto.
+  rutaGaleria: 'galeria',
+  firebase: { databaseURL: "https://antito-app-default-rtdb.firebaseio.com/" },
+  /* Formato esperado:
+  firebase: {
+    apiKey: "...", authDomain: "...", databaseURL: "https://TU-PROYECTO-default-rtdb.firebaseio.com/",
+    projectId: "...", storageBucket: "...", messagingSenderId: "...", appId: "..."
+  }, */
+  // Un objeto por parada del tour. foto: nombre del archivo junto a index.html. fecha puede ir vacía.
+  recuerdos: [
+    {titulo:"Todo empezó jugando Minecraft", fecha:"", foto:"foto1.jpg",
+     texto:"Empezamos a jugar Minecraft por nuestro grupo de amigos y, de a poco, fuimos tomándonos confianza y hablando cada vez más. En medio de todo adoptaste a Loki y, sin querer, dejé de hablarte. El Agüero me hizo ver que me había equivocado al pensar que tú me habías dejado de hablar, y me dijo que te pidiera disculpas. Lo hice, y desde ese día no hemos dejado de hablar. Ahí empecé a confesarte mi amor de a poco, con pequeñas muestras de cariño."},
+    {titulo:"Nuestro viaje a Talca", fecha:"", foto:"foto2.jpg",
+     texto:"Cuando viajamos a Talca para apoyar a tu mamá en sus terapias. No fue un viaje cualquiera, y por eso lo guardo: fue acompañarte en algo importante para ti, y estar ahí contigo era lo único que importaba."},
+    {titulo:"El día que te pedí pololeo", fecha:"10 de septiembre de 2023", foto:"foto3.jpg",
+     texto:"Llegué a tu casa con una caja llena de detalles y con las ganas de pedirte pololeo. Quería que ese día fuera especial, y desde ahí empezó nuestra historia como pareja."},
+    {titulo:"Tus ojos y tu forma de ser", fecha:"", foto:"foto4.jpg",
+     texto:"Tus ojos y la forma que tienes de ser son lo que más me gusta de ti. Podría describirlos con muchas palabras, pero prefiero seguir mirándolos todos los días."}
+  ]
+};
+// ======================
+
+document.querySelectorAll('[data-nombre]').forEach(e => e.textContent = CONFIG.nombre);
+document.querySelectorAll('[data-firma]').forEach(e => e.textContent = CONFIG.firma ? '— ' + CONFIG.firma : '');
+
+function ir(id){
+  document.querySelectorAll('.paso').forEach(p => p.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  if(id === 'p2') contar();
+  if(id === 'p3'){ k = 0; parada(); }
+}
+
+let k = 0;
+function parada(){
+  const r = CONFIG.recuerdos[k], n = CONFIG.recuerdos.length;
+  document.getElementById('tProg').textContent = 'Parada ' + (k + 1) + ' de ' + n;
+  const f = document.getElementById('tFoto');
+  f.alt = r.titulo; f.src = r.foto;
+  document.getElementById('tTitulo').textContent = r.titulo;
+  const fe = document.getElementById('tFecha');
+  fe.textContent = r.fecha || ''; fe.style.display = r.fecha ? '' : 'none';
+  document.getElementById('tTexto').textContent = r.texto;
+  document.getElementById('tAtras').style.visibility = k ? 'visible' : 'hidden';
+  document.getElementById('tSig').textContent = k < n - 1 ? 'Siguiente parada ✨' : 'Ver más momentos 📷';
+}
+function mover(d){
+  const nk = k + d;
+  if(nk >= CONFIG.recuerdos.length){ ir('pg'); return; }
+  if(nk < 0) return;
+  k = nk; parada();
+}
+
+function cargarScript(src){
+  return new Promise((ok, err) => { const t = document.createElement('script'); t.src = src; t.onload = ok; t.onerror = err; document.head.appendChild(t); });
+}
+let db = null;
+async function iniciarFirebase(){
+  if(!CONFIG.firebase) return;
+  try{
+    const v = 'https://www.gstatic.com/firebasejs/10.12.2/';
+    await cargarScript(v + 'firebase-app-compat.js');
+    await cargarScript(v + 'firebase-database-compat.js');
+    firebase.initializeApp(CONFIG.firebase);
+    db = firebase.database();
+    document.getElementById('subida').classList.add('on');
+    const gal = document.getElementById('galeria');
+    db.ref(CONFIG.rutaGaleria).on('value', snap => {
+      gal.querySelectorAll('.foto-subida').forEach(i => i.remove());
+      Object.values(snap.val() || {}).forEach(f => {
+        const d = document.createElement('div'); d.className = 'ft foto-subida';
+        const i = document.createElement('img'); i.src = f.url; i.alt = 'Foto añadida';
+        d.appendChild(i); gal.appendChild(d);
+      });
+    });
+  }catch(e){
+    console.error(e);
+    document.getElementById('subida').classList.add('on');
+    document.getElementById('btnSubir').style.display = 'none';
+    document.getElementById('estadoSubida').textContent = 'No se pudo conectar con Firebase para subir fotos.';
+  }
+}
+function comprimir(archivo, max = 900, cal = 0.7){
+  return new Promise((ok, err) => {
+    const l = new FileReader();
+    l.onload = e => {
+      const im = new Image();
+      im.onload = () => {
+        let w = im.width, h = im.height;
+        if(w > max){ h = Math.round(h * max / w); w = max; }
+        const c = document.createElement('canvas'); c.width = w; c.height = h;
+        c.getContext('2d').drawImage(im, 0, 0, w, h);
+        ok(c.toDataURL('image/jpeg', cal));
+      };
+      im.onerror = err; im.src = e.target.result;
+    };
+    l.onerror = err; l.readAsDataURL(archivo);
+  });
+}
+async function agregarFotos(ev){
+  const arch = [...ev.target.files].filter(f => f.type.startsWith('image/'));
+  const btn = document.getElementById('btnSubir'), est = document.getElementById('estadoSubida');
+  if(!arch.length || !db) return;
+  btn.disabled = true;
+  for(const a of arch){
+    try{
+      est.textContent = 'Subiendo foto... 💙';
+      await db.ref(CONFIG.rutaGaleria).push({ url: await comprimir(a), fecha: Date.now() });
+      est.textContent = '¡Foto guardada! 💙';
+    }catch(e){ console.error(e); est.textContent = 'Ups, algo falló subiendo la foto'; }
+  }
+  btn.disabled = false; ev.target.value = '';
+}
+iniciarFirebase();
+
+function abrir(){
+  document.getElementById('sobre').classList.add('abierto');
+  lluvia();
+  setTimeout(() => ir('p1'), 900);
+}
+
+function lluvia(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const e = ['✨','⭐','🪄','🦉','💙','🎂'];
+  for(let i = 0; i < 26; i++){
+    setTimeout(() => {
+      const d = document.createElement('div');
+      d.className = 'particula';
+      d.textContent = e[Math.floor(Math.random() * e.length)];
+      d.style.left = Math.random() * 100 + 'vw';
+      d.style.fontSize = (16 + Math.random() * 14) + 'px';
+      document.body.appendChild(d);
+      setTimeout(() => d.remove(), 3700);
+    }, i * 70);
+  }
+}
+
+function contar(){
+  const a = new Date(CONFIG.inicio + 'T00:00:00'), b = new Date();
+  let y = b.getFullYear() - a.getFullYear(), m = b.getMonth() - a.getMonth(), d = b.getDate() - a.getDate();
+  if(d < 0){ m--; d += new Date(b.getFullYear(), b.getMonth(), 0).getDate(); }
+  if(m < 0){ y--; m += 12; }
+  const set = (n, v, s, p) => {
+    document.getElementById('c' + n).textContent = v;
+    document.getElementById('l' + n).textContent = v === 1 ? s : p;
+  };
+  set('A', y, 'año', 'años'); set('M', m, 'mes', 'meses'); set('D', d, 'día', 'días');
+  const total = Math.floor((b - a) / 864e5);
+  document.getElementById('total').textContent = total.toLocaleString('es-CL') + ' días juntos, y contando';
+}
+</script>
+</body>
+</html>
