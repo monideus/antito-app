@@ -66,6 +66,7 @@ p{margin:0;font-size:15.5px;line-height:1.7}
 .foto.grande img{display:none}
 
 .galeria{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;width:100%;max-height:240px;overflow-y:auto;padding:5px}
+.galeria:empty{display:none}
 .galeria .ft{position:relative;height:85px;border-radius:10px;border:2px solid var(--lila);overflow:hidden;display:grid;place-items:center;font-size:22px;background:linear-gradient(135deg,var(--bruma),var(--cielo))}
 .galeria .ft::after{content:"🪄"}
 .galeria .ft img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
@@ -128,16 +129,11 @@ p{margin:0;font-size:15.5px;line-height:1.7}
     </div>
   </section>
 
-  <!-- 3b. Galería: guarda las fotos como a1.jpg ... a5.jpg junto a este archivo -->
+  <!-- 3b. Galería: las fotos se suben desde la propia página (Firebase) -->
   <section class="paso" id="pg">
     <h1>Más momentos nuestros</h1>
-    <div class="galeria" id="galeria">
-      <div class="ft"><img src="a1.jpg" alt="Momento 1" onerror="this.remove()"></div>
-      <div class="ft"><img src="a2.jpg" alt="Momento 2" onerror="this.remove()"></div>
-      <div class="ft"><img src="a3.jpg" alt="Momento 3" onerror="this.remove()"></div>
-      <div class="ft"><img src="a4.jpg" alt="Momento 4" onerror="this.remove()"></div>
-      <div class="ft"><img src="a5.jpg" alt="Momento 5" onerror="this.remove()"></div>
-    </div>
+    <div class="galeria" id="galeria"></div>
+    <p class="suave" id="vacio" style="display:none">Aún no hay fotos. ¡Sube la primera! 📷</p>
     <div class="subida" id="subida">
       <p class="suave">¿Tienes otra foto especial? Agrégala aquí y quedará guardada 💙</p>
       <button type="button" class="btn sec" id="btnSubir" onclick="document.getElementById('inputFotos').click()">📷 Subir foto(s)</button>
@@ -251,6 +247,7 @@ async function iniciarFirebase(){
         const i = document.createElement('img'); i.src = f.url; i.alt = 'Foto añadida';
         d.appendChild(i); gal.appendChild(d);
       });
+      document.getElementById('vacio').style.display = gal.children.length ? 'none' : '';
     });
   }catch(e){
     console.error(e);
